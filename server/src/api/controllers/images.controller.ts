@@ -25,5 +25,5 @@ async function processImage(file: Express.Multer.File){
     console.log("Text:");
     const finale = detections?.find(ent =>ent.locale != '')?.description?.replace('\n','');
     console.log(finale);
-    return detections?.find(ent =>ent.locale != '')?.description?.replace('\n','');
+    return finale;
 }
