@@ -5,4 +5,4 @@ const router = Router()
 
 router.use("/images", ImagesRouter)
 
-export default Router
+export default router
