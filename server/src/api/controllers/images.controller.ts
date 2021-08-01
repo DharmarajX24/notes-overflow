@@ -1,11 +1,13 @@
 import {Request, Response, NextFunction} from "express"
 import ImagesDAO from "../../dao/imagesDAO";
+import vision from "../../init/vision";
 
 export default class ImagesController {
   static apiAddImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
       // console.log(req.file)
       const file = req.file
+      await processImage(file!)
       const {data, error} = await ImagesDAO.addImage("tempUserId", {name: file?.filename!, addedAt: Date.now(), text: "Some text"})
       console.log(data)
       console.log(error)
@@ -14,4 +16,13 @@ export default class ImagesController {
       return next(e)
     }
   }
+}
+
+
+async function processImage(file: Express.Multer.File){
+    const [result] = await vision.textDetection(file.path);
+    const detections = result.textAnnotations;
+    console.log("Text:");
+    detections?.forEach((text) => console.log(text));
+    return detections?.join(' ');
 }
