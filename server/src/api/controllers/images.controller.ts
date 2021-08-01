@@ -23,6 +23,7 @@ async function processImage(file: Express.Multer.File){
     const [result] = await vision.textDetection(file.path);
     const detections = result.textAnnotations;
     console.log("Text:");
-    detections?.forEach((text) => console.log(text));
-    return detections?.join(' ');
+    const finale = detections?.find(ent =>ent.locale != '')?.description?.replace('\n','');
+    console.log(finale);
+    return detections?.find(ent =>ent.locale != '')?.description?.replace('\n','');
 }
