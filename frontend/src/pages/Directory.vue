@@ -64,6 +64,7 @@ export default {
   created() {
     console.log(this.$route.params)
     this.socket = io(`${process.env.SERVER_URL}`, {
+      path: process.env.SOCKET_PATH,
       transports: ['websocket'],
     });
 
