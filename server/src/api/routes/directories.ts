@@ -8,6 +8,6 @@ router.get("/", DirectoriesController.apiListDirectories)
 
 router.post("/create", DirectoriesController.apiAddDirectory)
 
-router.post("/:directoryId", mImagesUpload.single("image"), DirectoriesController.apiAddImage)
+router.post("/:directory_id", mImagesUpload.single("image"), DirectoriesController.apiAddImage)
 
 export default router
