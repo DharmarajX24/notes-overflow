@@ -26,9 +26,9 @@ export default class DirectoriesDAO {
     return supabase.from("directories").select("id,name").eq("user_id", userId)
   }
 
-  static addImage = async (userId: string, directoryId: string, imageData: Image.Data) => {
+  static addImage = async (userId: string, directory_id: string, imageData: Image.Data) => {
     return supabase.from("images").insert([
-      {directoryId, text: imageData.text, addedAt: new Date()}
+      {directory_id, text: imageData.text, added_at: new Date()}
     ]);
   }
 }
