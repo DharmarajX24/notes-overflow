@@ -1,8 +1,16 @@
-import express, {Request, Response, NextFunction} from "express"
+import express, {NextFunction, Request, Response} from "express"
+import cors from "cors"
 import rootRouter from "./api/routes/index"
+
+declare module 'express-serve-static-core' {
+  interface Request {
+    decodedToken: any
+  }
+}
 
 const app = express()
 
+app.use(cors({origin: true}))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 

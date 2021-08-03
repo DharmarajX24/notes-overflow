@@ -1,8 +1,10 @@
 import {Router} from "express"
-import ImagesRouter from "./images"
+import DirectoriesRouter from "./directories"
+import {authenticateRequest} from "../middlewares/auth";
 
 const router = Router()
 
-router.use("/images", ImagesRouter)
+router.use(authenticateRequest)
+router.use("/directories", DirectoriesRouter)
 
 export default router

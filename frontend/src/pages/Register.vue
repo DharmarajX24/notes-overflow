@@ -20,6 +20,8 @@
             label="Password"
           />
 
+          <p>Existing user? <RouterLink to="/login">Login</RouterLink></p>
+
           <div class="flex justify-end">
             <q-btn color="primary" label="SignUp" type="submit"/>
           </div>
@@ -31,8 +33,6 @@
 </template>
 
 <script>
-import {useQuasar, Loading} from 'quasar'
-const $q = useQuasar()
 import {auth} from 'boot/supabase'
 
 export default {
@@ -79,9 +79,9 @@ export default {
             message: error.message,
             color: 'red'
           })
+        } else {
+          await this.$router.push('/dashboard')
         }
-
-        console.log(user)
 
       }
     }

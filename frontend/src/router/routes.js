@@ -12,7 +12,8 @@ const routes = [
     path: '/dashboard',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') }
+      { path: '', component: () => import('pages/Index.vue') },
+      { path: 'directory/:id', component: () => import('pages/Directory.vue') }
     ]
   },
   // Always leave this as last one,
