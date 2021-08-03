@@ -9,7 +9,7 @@ export const authenticateRequest = async (req: Request, res: Response, next: Nex
     const authToken = authHeader.split(" ")
     if (authToken[0] !== "Bearer") return next(401)
 
-    req.decodedToken = jwt.verify(authToken[1], process.env.SUPABASE_JWT_SECRET!)
+    req.decodedToken = verifyToken(authToken[1])
     console.log(req.decodedToken)
     return next()
   } catch (e) {
@@ -19,4 +19,8 @@ export const authenticateRequest = async (req: Request, res: Response, next: Nex
     if (e.name === "JsonWebTokenError") return res.status(401).json({error: "Unauthorized"})
     return next(401)
   }
+}
+
+export const verifyToken = (token: string) => {
+  return jwt.verify(token, process.env.SUPABASE_JWT_SECRET!)
 }

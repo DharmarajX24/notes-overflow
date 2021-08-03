@@ -1,5 +1,6 @@
 import express, {NextFunction, Request, Response} from "express"
 import cors from "cors"
+import {createServer} from "http"
 import rootRouter from "./api/routes/index"
 
 declare module 'express-serve-static-core' {
@@ -21,4 +22,6 @@ app.use((e: any, req: Request, res: Response, next: NextFunction) => {
   return res.status(500).json({code: "INTERNAL_SERVER_ERROR"})
 })
 
-export default app
+const server = createServer(app)
+
+export {app, server}

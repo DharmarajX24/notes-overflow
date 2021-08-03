@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from "express"
 import DirectoriesDAO from "../../dao/directoriesDAO";
 import {parseTextFromImage, uploadToSupabase} from "../../handlers/image";
 import {extname} from "path"
+import MeilisearchDAO from "../../dao/meilisearchDAO";
 
 export default class DirectoriesController {
   static apiAddDirectory = async (req: Request, res: Response, next: NextFunction) => {
@@ -45,8 +46,13 @@ export default class DirectoriesController {
       })
       console.error("ERROR: ",error)
       if (error) return next(error)
-      // TODO: Index text in Meilisearch
-      console.error("File: ",file?.path!)
+      await MeilisearchDAO.addDocuments([{
+        id: data![0].id,
+        name: `image_${data![0].id}${extname(file?.filename!)}`,
+        text: text!,
+        added_at: Date.now(),
+        user_id: req.decodedToken.sub
+      }])
       await uploadToSupabase(file?.path!, `${req.decodedToken.sub}/image_${data![0].id}${extname(file?.filename!)}`)
       return res.status(200).json({data: file?.filename})
     } catch (e) {
