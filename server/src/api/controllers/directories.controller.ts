@@ -36,15 +36,17 @@ export default class DirectoriesController {
 
   static apiAddImage = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const {directoryId} = req.params
+      const {directory_id} = req.params
       const file = req.file
       const text = await parseTextFromImage(file?.path!)
-      const {data, error} = await DirectoriesDAO.addImage(req.decodedToken.sub, directoryId, {
+      const {data, error} = await DirectoriesDAO.addImage(req.decodedToken.sub, directory_id, {
         name: file?.filename!,
         text: text!
       })
+      console.error("ERROR: ",error)
       if (error) return next(error)
       // TODO: Index text in Meilisearch
+      console.error("File: ",file?.path!)
       await uploadToSupabase(file?.path!, `${req.decodedToken.sub}/image_${data![0].id}${extname(file?.filename!)}`)
       return res.status(200).json({data: file?.filename})
     } catch (e) {
