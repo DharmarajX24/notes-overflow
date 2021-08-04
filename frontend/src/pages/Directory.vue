@@ -13,7 +13,7 @@
           <q-icon class="q-ml-sm" name="file_upload"></q-icon>
         </q-btn>
       </div>
-      <div class="flex column full-width items-center q-pa-md q-mt-sm">
+      <div v-if="getImageCount" class="flex column full-width items-center q-pa-md q-mt-sm">
         <q-infinite-scroll class="full-width flex justify-center absolute">
           <q-card v-for="image in $store.state.directoriesModule.images[$route.params.id]" :key="image.name"
                   class="full-width q-my-sm"
@@ -24,10 +24,18 @@
                 spinner-color="white"
                 style="height: 100%; width: 100%;"
               />
-              <p class="q-mb-none q-mt-sm">Uploaded {{image.added_at}}</p>
+              <p class="q-mb-none q-mt-sm">Uploaded {{formattedTime(image.added_at)}} ago</p>
             </q-card-section>
           </q-card>
         </q-infinite-scroll>
+      </div>
+      <div v-else class="flex flex-center column q-mt-xl">
+          <img
+            alt="Quasar logo"
+            src="~assets/search.svg"
+            style="width: 200px; height: 200px"
+          >
+          <p class="text-subtitle1">{{ search.length > 0 ? 'No results for entered query' : 'Enter your query' }}</p>
       </div>
     </q-scroll-area>
   </q-page>
@@ -36,6 +44,7 @@
 <script>
 import io from "socket.io-client"
 import {auth, storage} from "boot/supabase";
+import {formatDistance} from "date-fns"
 
 export default {
   name: 'Index',
@@ -77,6 +86,18 @@ export default {
         })
       } else {
         this.$store.commit('directoriesModule/setImages', {id: this.$route.params.id, images: []})
+      }
+    },
+    formattedTime(ts) {
+      return formatDistance(ts, Date.now())
+    }
+  },
+  computed: {
+    getImageCount() {
+      if (this.$store.state.directoriesModule.images[this.$route.params.id]) {
+        return this.$store.state.directoriesModule.images[this.$route.params.id].length
+      } else {
+        return  0
       }
     }
   },

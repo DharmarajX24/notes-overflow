@@ -37,7 +37,7 @@
     </q-drawer>
 
     <q-drawer v-model="rightDrawerOpen" bordered show-if-above side="right">
-      <div class="flex column full-width content-center">
+      <div class="flex column full-width full-height content-center">
         <div v-if="user" class="flex row items-center justify-start q-pa-md full-width">
           <q-avatar color="primary" size="xl" text-color="white">{{ user.email[0].toUpperCase() }}</q-avatar>
           <p class="q-ml-md q-mb-none text-subtitle1">{{ user.email }}</p>
@@ -49,9 +49,10 @@
           </tr>
           <tr>
             <td>Directories</td>
-            <td>5</td>
+            <td>{{ $store.state.directoriesModule.directories.length }}</td>
           </tr>
         </table>
+        <q-btn @click="logout" color="red" class="q-mx-lg q-mb-md q-mt-auto">Logout</q-btn>
       </div>
     </q-drawer>
 
@@ -96,6 +97,19 @@ export default {
         message: `Welcome! ${auth.user().email}`,
         color: "primary",
       })
+    }
+  },
+  methods: {
+    async logout() {
+      const {error} = await auth.signOut()
+      if (error) {
+        this.$q.notify({
+          message: "Error logging out!",
+          color: "red"
+        })
+      } else {
+        await this.$router.push("/")
+      }
     }
   }
 }
