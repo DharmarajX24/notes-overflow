@@ -23,5 +23,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run start 
+    - run: cp -a ${{ secrets.CREDS_PATH }}/. ./
+    - run: npm run start
     - run: pm2 restart NoServer

@@ -56,8 +56,8 @@ export default {
   },
   created() {
     console.log(this.$route.params)
-    this.socket = io(`${process.env.SOCKET_URL}`, {
-      path: process.env.SOCKET_PATH,
+    this.socket = io(`${process.env.FE_SOCKET_URL}`, {
+      path: process.env.FE_SOCKET_PATH,
       transports: ['websocket'],
     });
 
