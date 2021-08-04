@@ -39,23 +39,27 @@ export default class DirectoriesController {
     try {
       const {directory_id} = req.params
       const file = req.file
+      if (!file) return next(400)
+      await DirectoriesDAO.verifyUserDirectory(req.decodedToken.sub, directory_id)
       const text = await parseTextFromImage(file?.path!)
       const {data, error} = await DirectoriesDAO.addImage(req.decodedToken.sub, directory_id, {
         name: file?.filename!,
         text: text!
       })
-      console.error("ERROR: ",error)
       if (error) return next(error)
+      console.log(directory_id, text)
       await MeilisearchDAO.addDocuments([{
         id: data![0].id,
         name: `image_${data![0].id}${extname(file?.filename!)}`,
         text: text!,
+        directory_id,
         added_at: Date.now(),
         user_id: req.decodedToken.sub
       }])
       await uploadToSupabase(file?.path!, `${req.decodedToken.sub}/image_${data![0].id}${extname(file?.filename!)}`)
       return res.status(200).json({data: file?.filename})
     } catch (e) {
+      console.log(e)
       return next(e)
     }
   }

@@ -5,12 +5,14 @@ interface ImageDoc {
   name: string,
   text: string,
   user_id: string,
+  directory_id: string,
   added_at: number
 }
 
 interface QueryPayload {
   query: string,
   user_id: string,
+  directory_id: string,
   offset: number
 }
 
@@ -19,10 +21,11 @@ export default class MeilisearchDAO {
     return meilisearch.index("images").addDocuments(docs)
   }
 
-  static queryDocuments = async ({query, user_id, offset}: QueryPayload) => {
+  static queryDocuments = async ({query, user_id, offset, directory_id}: QueryPayload) => {
     return meilisearch.index("images").search(query, {
-      facetFilters: [`user_id:${user_id}`],
-      offset: offset * 20
+      filters: `user_id=${user_id} AND directory_id=${directory_id}`,
+      offset: offset,
+      limit: 20
     })
   }
 }
