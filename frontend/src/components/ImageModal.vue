@@ -8,7 +8,7 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-file v-model="image" label="Select an image" standout="bg-primary text-white">
+        <q-file v-model="image" label="Select an image" accept=".jpg, image/*" standout="bg-primary text-white">
           <template v-slot:append>
             <q-icon color="primary" name="attach_file"/>
           </template>
@@ -71,6 +71,9 @@ export default {
         this.$store.commit('modalsModule/closeImageModal')
       }
       this.$store.commit('modalsModule/toggleLoading', {modal: 'image', loading: false})
+      if (localStorage.getItem("new_user") === "true") {
+        window.location.reload()
+      }
       // await this.$router.push(`/dashboard/directory/${data}`)
     }
   }

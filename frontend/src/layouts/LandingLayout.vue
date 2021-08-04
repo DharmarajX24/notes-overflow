@@ -8,6 +8,11 @@
           Notes<b>Overflow</b>
         </q-toolbar-title>
 
+
+        <q-btn>
+            View Source Code
+        </q-btn>
+
       </q-toolbar>
     </q-header>
 

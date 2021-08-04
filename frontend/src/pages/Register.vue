@@ -80,6 +80,7 @@ export default {
             color: 'red'
           })
         } else {
+          localStorage.setItem("new_user", "true")
           await this.$router.push('/dashboard')
         }
 
