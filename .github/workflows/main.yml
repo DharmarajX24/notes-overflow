@@ -24,5 +24,4 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: cp -a ${{ secrets.CREDS_PATH }}/. ./
-    - run: npm run start
     - run: pm2 restart NoServer
