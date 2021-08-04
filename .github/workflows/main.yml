@@ -25,5 +25,5 @@ jobs:
     - run: npm ci
     - run: cp -a ${{ secrets.CREDS_PATH }}/. ./
     - run: pm2 restart NoServer
-    - run: pwd && ls && quasar build
+    - run: yarn install && quasar build
       working-directory: frontend
