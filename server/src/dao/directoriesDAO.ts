@@ -17,7 +17,7 @@ export default class DirectoriesDAO {
     const {count} = await supabase.from("directories").select("*", {
       count: "exact",
       head: true
-    }).eq("user_id", user_id).eq("directory_id", directory_id)
+    }).eq("user_id", user_id).eq("id", directory_id)
     if (!count) throw new Error("Invalid Directory")
     return
   }

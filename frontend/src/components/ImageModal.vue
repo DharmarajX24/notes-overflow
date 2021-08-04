@@ -62,7 +62,7 @@ export default {
         })
 
         const {data, error} = await response.json()
-
+        console.log("Response received")
         if (error) {
           console.log(error)
         } else {
