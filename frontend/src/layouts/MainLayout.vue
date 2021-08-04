@@ -4,7 +4,7 @@
     <q-header class="bg-primary text-white" elevated>
       <q-toolbar>
         <q-btn dense flat icon="menu" round @click="leftDrawerOpen = !leftDrawerOpen"/>
-
+        
         <q-toolbar-title>
           Notes<b>Overflow</b>
         </q-toolbar-title>
