@@ -3,10 +3,6 @@ name: Node.js CI
 on:
   push:
     branches: [ main ]
-    
-defaults:
-  run:
-    working-directory: server
 
 jobs:
   build:
@@ -20,9 +16,9 @@ jobs:
     steps:
     - run: pwd && cd /home/dharmaraj/runners/no/notesoverflow/notes-overflow/notes-overflow/server
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+    #- name: Use Node.js ${{ matrix.node-version }}
+    #  uses: actions/setup-node@v2
+    #  with:
+    #    node-version: ${{ matrix.node-version }}
+    #    cache: 'npm'
     - run: npm run start
