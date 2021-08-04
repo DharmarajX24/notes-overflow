@@ -14,7 +14,7 @@
         </q-btn>
       </div>
       <div class="flex column full-width items-center q-pa-md q-mt-sm">
-        <q-infinite-scroll :offset="250" class="full-width flex justify-center absolute">
+        <q-infinite-scroll class="full-width flex justify-center absolute">
           <q-card v-for="image in $store.state.directoriesModule.images[$route.params.id]" :key="image.name"
                   class="full-width q-my-sm"
                   style="height: auto; max-width: 36rem;">
@@ -24,7 +24,7 @@
                 spinner-color="white"
                 style="height: 100%; width: 100%;"
               />
-              <p class="q-mb-none q-mt-sm">Uploaded {{image.text}}</p>
+              <p class="q-mb-none q-mt-sm">Uploaded {{image.added_at}}</p>
             </q-card-section>
           </q-card>
         </q-infinite-scroll>
@@ -57,8 +57,6 @@ export default {
       const urlRequests = data.map(({name}) => storage.from("images").createSignedUrl(`${auth.user().id}/${name}`, 30))
       const urls = await Promise.all(urlRequests)
       const images = data.map((img, i) => ({...img, url: urls[i].data.signedURL}))
-      // const u = (await storage.from("images").createSignedUrl(`${auth.user().id}/${images[0].name}`, 30)).data.signedURL
-      // console.log("u", u)
       this.$store.commit('directoriesModule/setImages', {id: this.$route.params.id, images})
     })
 
@@ -66,11 +64,13 @@ export default {
       console.log(e)
     })
   },
-  watch: {
-    search(n) {
-      if (n.length) {
+  methods: {
+    loadResults() {
+      const q = this.search
+      console.log("Stage", this.stage)
+      if (q.length) {
         this.socket.emit("search", {
-          q: n,
+          q,
           offset: 0,
           token: auth.session().access_token,
           directory_id: this.$route.params.id
@@ -78,6 +78,11 @@ export default {
       } else {
         this.$store.commit('directoriesModule/setImages', {id: this.$route.params.id, images: []})
       }
+    }
+  },
+  watch: {
+    search() {
+      this.loadResults()
     }
   }
 }
