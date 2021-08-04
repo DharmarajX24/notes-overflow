@@ -1,3 +1,9 @@
 .idea
 .vscode
 *-lock.json
+
+node_modules
+.env
+
+serviceAccount.json
+dist
