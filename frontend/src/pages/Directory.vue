@@ -65,8 +65,16 @@ export default {
       console.log(data)
       const urlRequests = data.map(({name}) => storage.from("images").createSignedUrl(`${auth.user().id}/${name}`, 30))
       const urls = await Promise.all(urlRequests)
-      const images = data.map((img, i) => ({...img, url: urls[i].data.signedURL}))
-      this.$store.commit('directoriesModule/setImages', {id: this.$route.params.id, images})
+      console.log("URLs fetched", urls)
+      if (urls.find(url => url.error)) {
+        this.$q.notify({
+          message: "There was an error loading images. Please refresh and try again.",
+          color: "red"
+        })
+      } else {
+        const images = data.map((img, i) => ({...img, url: urls[i].data.signedURL}))
+        this.$store.commit('directoriesModule/setImages', {id: this.$route.params.id, images})
+      }
     })
 
     this.socket.on("error", (e) => {

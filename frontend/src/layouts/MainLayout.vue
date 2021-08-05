@@ -4,7 +4,7 @@
     <q-header class="bg-primary text-white" elevated>
       <q-toolbar>
         <q-btn dense flat icon="menu" round @click="leftDrawerOpen = !leftDrawerOpen"/>
-        
+
         <q-toolbar-title>
           Notes<b>Overflow</b>
         </q-toolbar-title>
@@ -84,6 +84,7 @@ export default {
     }
   },
   async created() {
+    console.log(process.env.FE_SERVER_URL)
     console.log(this.$store.state.modalsModule)
     if (!auth.user()) {
       await this.$router.push('/')

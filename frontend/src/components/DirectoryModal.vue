@@ -47,7 +47,7 @@ export default {
   methods: {
     async createDirectory() {
       this.$store.commit('modalsModule/toggleLoading', {modal: 'directory', loading: true})
-      const response = await fetch(`${process.env.SERVER_URL}/directories/create`, {
+      const response = await fetch(`${process.env.FE_SERVER_URL}/directories/create`, {
         method: 'POST',
         headers: {authorization: `Bearer ${auth.session().access_token}`, 'Content-Type': 'application/json'},
         body: JSON.stringify({name: this.name, description: this.description})

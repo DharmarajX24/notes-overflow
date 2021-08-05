@@ -55,7 +55,7 @@ export default {
       } else {
         const rData = new FormData()
         rData.append("image", file)
-        const response = await fetch(`${process.env.SERVER_URL}/directories/${directoryId}`, {
+        const response = await fetch(`${process.env.FE_SERVER_URL}/directories/${directoryId}`, {
           method: 'POST',
           headers: {authorization: `Bearer ${auth.session().access_token}`},
           body: rData
