@@ -5,6 +5,7 @@ LIVE DEMO: https://no.dharmaraj.tech/
 
 
 Requirements:
+
 **Supabase:** Auth & Database
 Start a project here: https://supabase.io/database
 
