@@ -43,38 +43,46 @@ export default {
   },
   methods: {
     async uploadImage() {
-      this.$store.commit('modalsModule/toggleLoading', {modal: 'image', loading: true})
-      const directoryId = this.$route.params.id
-      console.log(directoryId)
-      const file = this.$store.state.modalsModule.image.data
-      if (!file) {
+      try {
+        this.$store.commit('modalsModule/toggleLoading', {modal: 'image', loading: true})
+        const directoryId = this.$route.params.id
+        console.log(directoryId)
+        const file = this.$store.state.modalsModule.image.data
+        if (!file) {
+          this.$q.notify({
+            message: "Please select an image",
+            color: "red"
+          })
+        } else {
+          const rData = new FormData()
+          rData.append("image", file)
+          const response = await fetch(`${process.env.FE_SERVER_URL}/directories/${directoryId}`, {
+            method: 'POST',
+            headers: {authorization: `Bearer ${auth.session().access_token}`},
+            body: rData
+          })
+
+          const {data, error} = await response.json()
+          console.log("Response received")
+          if (error) {
+            console.log(error)
+          } else {
+            console.log(data)
+          }
+          this.$store.commit('modalsModule/closeImageModal')
+        }
+        this.$store.commit('modalsModule/toggleLoading', {modal: 'image', loading: false})
+        // if (localStorage.getItem("new_user") === "true") {
+        //   window.location.reload()
+        // }
+        // await this.$router.push(`/dashboard/directory/${data}`)
+      } catch (e) {
+        console.log(e)
         this.$q.notify({
-          message: "Please select an image",
+          message: "Something went wrong. Please refresh and try again",
           color: "red"
         })
-      } else {
-        const rData = new FormData()
-        rData.append("image", file)
-        const response = await fetch(`${process.env.FE_SERVER_URL}/directories/${directoryId}`, {
-          method: 'POST',
-          headers: {authorization: `Bearer ${auth.session().access_token}`},
-          body: rData
-        })
-
-        const {data, error} = await response.json()
-        console.log("Response received")
-        if (error) {
-          console.log(error)
-        } else {
-          console.log(data)
-        }
-        this.$store.commit('modalsModule/closeImageModal')
       }
-      this.$store.commit('modalsModule/toggleLoading', {modal: 'image', loading: false})
-      if (localStorage.getItem("new_user") === "true") {
-        window.location.reload()
-      }
-      // await this.$router.push(`/dashboard/directory/${data}`)
     }
   }
 }
