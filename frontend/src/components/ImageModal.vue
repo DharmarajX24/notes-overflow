@@ -66,8 +66,16 @@ export default {
           console.log("Response received")
           if (error) {
             console.log(error)
+            this.$q.notify({
+            message: "an error occurred. Please try again.",
+            color: "red"
+          })
           } else {
             console.log(data)
+            this.$q.notify({
+            message: "Image uploaded successfully",
+            color: "green"
+          })
           }
           this.$store.commit('modalsModule/closeImageModal')
         }
