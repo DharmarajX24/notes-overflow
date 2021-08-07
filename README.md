@@ -18,3 +18,9 @@ Requirements:
 Link your Supabase credentials inside a `.env` file, use the `.env.example` as a base
 Repeat this for the Server with the GCP Service account and MeiliSearch
 
+
+#### Upcoming Features:
+
+- Multiple image uploads
+- Sharing directories with other people 
+- Adding custom text to index
