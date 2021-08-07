@@ -8,7 +8,7 @@
       </q-card-section>
 
       <q-card-section class="q-pt-none">
-        <q-file v-model="image" label="Select an image" accept=".jpg, image/*" standout="bg-primary text-white">
+        <q-file v-model="image" accept=".jpg, image/*" label="Select an image" standout="bg-primary text-white">
           <template v-slot:append>
             <q-icon color="primary" name="attach_file"/>
           </template>
@@ -63,19 +63,19 @@ export default {
           })
 
           const {data, error} = await response.json()
-          console.log("Response received")
+          console.log("Response received", data, error)
           if (error) {
             console.log(error)
             this.$q.notify({
-            message: "an error occurred. Please try again.",
-            color: "red"
-          })
+              message: "an error occurred. Please try again.",
+              color: "red"
+            })
           } else {
             console.log(data)
             this.$q.notify({
-            message: "Image uploaded successfully",
-            color: "green"
-          })
+              message: "Image uploaded successfully",
+              color: "green"
+            })
           }
           this.$store.commit('modalsModule/closeImageModal')
         }
